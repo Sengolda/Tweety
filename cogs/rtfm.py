@@ -18,9 +18,7 @@ def finder(text, collection, *, key=None, lazy=True):
             suggestions.append((len(r.group()), r.start(), item))
 
     def sort_key(tup):
-        if key:
-            return tup[0], tup[1], key(tup[2])
-        return tup
+        return (tup[0], tup[1], key(tup[2])) if key else tup
 
     if lazy:
         return (z for _, _, z in sorted(suggestions, key=sort_key))

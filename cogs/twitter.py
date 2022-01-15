@@ -8,9 +8,7 @@ from utils.views import Paginator
 
 def is_developer():
     def predicate(ctx: commands.Context):
-        if ctx.author.id in ctx.bot.dev_ids or ctx.author.id in ctx.bot.owner_ids:
-            return True
-        return False
+        return ctx.author.id in ctx.bot.dev_ids or ctx.author.id in ctx.bot.owner_ids
 
     return commands.check(predicate)
 
@@ -254,8 +252,6 @@ class Twitter(commands.Cog):
 
             if not tweet.poll:
                 return await ctx.send("The tweet doesn't have poll.")
-                return
-
             em = (
                 discord.Embed(
                     title=f"Poll for tweet({tweet.id})",
@@ -434,13 +430,7 @@ class Twitter(commands.Cog):
             elif flag.lower() in ("-reply", "-re", "-r", "-rep"):
                 text = text.split(" ")
                 tweet_id = text[0]
-                msg = ""
-                for word in text[1:]:
-                    if word != text[-1]:
-                        msg += f"{word} "
-                    else:
-                        msg += word
-
+                msg = "".join(f"{word} " if word != text[-1] else word for word in text[1:])
                 tweet = user.twitter_account.client.tweet(msg, reply_tweet=tweet_id)
                 await ctx.send(
                     f"Reply complete! check it on https://twitter.com/TweetyBott/status/{tweet.id}"
@@ -449,13 +439,7 @@ class Twitter(commands.Cog):
             elif flag.lower() in ("-q", "-quo", "-quote"):
                 text = text.split(" ")
                 tweet_id = text[0]
-                msg = ""
-                for word in text[1:]:
-                    if word != text[-1]:
-                        msg += f"{word} "
-                    else:
-                        msg += word
-
+                msg = "".join(f"{word} " if word != text[-1] else word for word in text[1:])
                 tweet = user.twitter_account.client.tweet(msg, quote_tweet=tweet_id)
                 await ctx.send(
                     f"Quote complete! check it on https://twitter.com/TweetyBott/status/{tweet.id}"

@@ -14,7 +14,7 @@ def to_keycap(c):
 
 
 def format_mentioned(text):
-    if not len(text) > 0:
+    if len(text) <= 0:
         return "*User doesnt provide a bio*"
 
     original_split = text.split(" ")
@@ -28,7 +28,7 @@ def format_mentioned(text):
     complete = ""
     for num, word in enumerate(split_bio):
         before_word = ""
-        if "." in word and not "t.co" in word:
+        if "." in word and "t.co" not in word:
             before_word += "."
             word = word.replace(".", "")
 
@@ -89,16 +89,13 @@ class DisplayModels:
                 button.disabled = True
 
             select.disabled = True
-            if isinstance(message, discord.Interaction):
-                try:
+            try:
+                if isinstance(message, discord.Interaction):
                     await message.edit_original_message(view=view)
-                except Exception as e:
-                    raise e
-            else:
-                try:
+                else:
                     await message.edit(view=view)
-                except Exception as e:
-                    raise e
+            except Exception as e:
+                raise e
 
         async def follow(inter):
             if inter.user.id != ctx.author.id:
@@ -109,16 +106,13 @@ class DisplayModels:
                 ctx.bot.db[str(ctx.author.id)]["token"].split("-")[0]
             ):  # not all data have "user_id" key, we use the access token that include the id.
                 buttons[0].disabled = True
-                if isinstance(message, discord.Interaction):
-                    try:
+                try:
+                    if isinstance(message, discord.Interaction):
                         await message.edit_original_message(view=view)
-                    except Exception as e:
-                        raise e
-                else:
-                    try:
+                    else:
                         await message.edit(view=view)
-                    except Exception as e:
-                        raise e
+                except Exception as e:
+                    raise e
                 await ctx.send("You cannot follow yourself!")
                 return
 
@@ -126,16 +120,13 @@ class DisplayModels:
             label = buttons[0].label.split(" ")
             buttons[0].label = str(int(label[0]) + 1) + " " + label[1]
             buttons[0].disabled = True
-            if isinstance(message, discord.Interaction):
-                try:
+            try:
+                if isinstance(message, discord.Interaction):
                     await message.edit_original_message(view=view)
-                except Exception as e:
-                    raise e
-            else:
-                try:
+                else:
                     await message.edit(view=view)
-                except Exception as e:
-                    raise e
+            except Exception as e:
+                raise e
             await inter.response.send_message(
                 f"Followed {user.username}!", ephemeral=True
             )
@@ -283,16 +274,13 @@ class DisplayModels:
             label = buttons[0].label.split(" ")
             buttons[0].label = str(int(label[0]) + 1) + " " + label[1]
             buttons[0].disabled = True
-            if isinstance(message, discord.Interaction):
-                try:
+            try:
+                if isinstance(message, discord.Interaction):
                     await message.edit_original_message(view=view)
-                except Exception as e:
-                    raise e
-            else:
-                try:
+                else:
                     await message.edit(view=view)
-                except Exception as e:
-                    raise e
+            except Exception as e:
+                raise e
 
         async def retweet(inter):
             if inter.user.id != ctx.author.id:
@@ -307,16 +295,13 @@ class DisplayModels:
             label = buttons[1].label.split(" ")
             buttons[1].label = str(int(label[0]) + 1) + " " + label[1]
             buttons[1].disabled = True
-            if isinstance(message, discord.Interaction):
-                try:
+            try:
+                if isinstance(message, discord.Interaction):
                     await message.edit_original_message(view=view)
-                except Exception as e:
-                    raise e
-            else:
-                try:
+                else:
                     await message.edit(view=view)
-                except Exception as e:
-                    raise e
+            except Exception as e:
+                raise e
 
         async def reply(inter):
             if inter.user.id != ctx.author.id:
@@ -351,17 +336,13 @@ class DisplayModels:
                     if img.type == pytweet.MediaType.photo
                     else img.preview_image_url
                 )
-                if isinstance(message, discord.Interaction):
-                    try:
+                try:
+                    if isinstance(message, discord.Interaction):
                         await message.edit_original_message(embed=embed)
-                    except Exception as e:
-                        raise e
-                else:
-                    try:
+                    else:
                         await message.edit(embed=embed)
-                    except Exception as e:
-                        raise e
-
+                except Exception as e:
+                    raise e
             else:
                 await inter.response.send_message(
                     "No more images available!", ephemeral=True
