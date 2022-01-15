@@ -12,7 +12,7 @@ class CustomHelpCommand(commands.HelpCommand):
         return f"Use e!{self.invoked_with} [{'Category' if category else 'command'}] for more info on {'all commands' if category else 'the command'}"
 
     def get_command_signature(self, command):
-        return command.signature if command.signature else " "
+        return command.signature or " "
 
     async def send_bot_help(self, mapping):
         cog_description = {
@@ -40,9 +40,6 @@ class CustomHelpCommand(commands.HelpCommand):
                     value=cog_description[att],
                     inline=False,
                 )
-
-            else:
-                pass
 
         em.set_author(name=self.ctx.author, icon_url=self.ctx.author.avatar.url)
         em.set_footer(
@@ -121,8 +118,6 @@ class CustomHelpCommand(commands.HelpCommand):
                     icon_url=self.ctx.author.avatar.url,
                 )
             )
-            await channel.send(embed=embed)
-
         else:
             embed = (
                 discord.Embed(
@@ -136,4 +131,5 @@ class CustomHelpCommand(commands.HelpCommand):
                     icon_url=self.ctx.author.avatar.url,
                 )
             )
-            await channel.send(embed=embed)
+
+        await channel.send(embed=embed)

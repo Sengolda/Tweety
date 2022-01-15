@@ -78,7 +78,7 @@ class DisTweetBot(commands.Bot):
         print("loading cogs!")
         for fn in os.listdir("cogs"):
             try:
-                if not fn == "__pycache__":
+                if fn != "__pycache__":
                     self.load_extension(f"cogs.{fn[:-3]}")
             except Exception as e:
                 print(f"Cannot load extension: {fn}")
@@ -119,11 +119,11 @@ class DisTweetBot(commands.Bot):
             )
 
         elif isinstance(error, commands.NotOwner):
-            await ctx.send(f"Only owner can do that command!")
+            await ctx.send('Only owner can do that command!')
             ctx.command.reset_cooldown(ctx)
 
         elif isinstance(error, commands.CheckFailure):
-            await ctx.send(f"Check have failed! You are not in check")
+            await ctx.send('Check have failed! You are not in check')
 
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(error)
